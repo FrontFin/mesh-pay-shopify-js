@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import PropTypes from 'prop-types';
+import Mixpanel from 'mixpanel-browser';
+
 
 import {
   createLink,
@@ -16,21 +18,39 @@ const MeshModal = ({
   transferFinished,
   pageLoaded,
   authData,
+  linkToken
 }) => {
   const [linkConnection, setLinkConnection] = useState(null);
   const CLIENT_ID = process.env.NEXT_PUBLIC_PORTAL_CLIENT_KEY;
+  const Mix_Token = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN
+
+  
+  Mixpanel.init(Mix_Token)
 
   useEffect(() => {
+
+
     const connectionOptions = {
       clientId: CLIENT_ID,
       Connected: (authData) => {
         console.info('FRONT SUCCESS', authData);
       },
       onEvent: (event) => {
-        console.info('FRONT EVENT', event);
+        console.info('Mesh EVENT', event);
         if (event.type === 'close') {
           console.log('Close event occurred in Mesh modal');
         }
+
+        
+        Mixpanel.track(event.type, {
+          txnId: linkToken.transferOptions.transactionId,
+          userId: linkToken.UserId,
+          amountInFiat: linkToken.transferOptions.amountInFiat,
+          symbol: linkToken.transferOptions.toAddresses[0].symbol,
+          networkId: linkToken.transferOptions.toAddresses[0].networkId
+        });
+        
+
       },
       onExit: (error) => {
         if (error) {
@@ -69,7 +89,7 @@ const MeshModal = ({
       createdLink.openLink(link);
     }
 
-  }, [open, link, authData, meshExit, transferFinished]);
+  }, [open, link, authData,]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth></Dialog>
