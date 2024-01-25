@@ -42,7 +42,6 @@ export default async function handler(req, res) {
 
     return res.status(201).json(responseData);
   } catch (error) {
-    console.log('Error from Mesh:', error);
     res.status(500).json({ error: `Something went wrong: ${error.message}` });
   }
 }

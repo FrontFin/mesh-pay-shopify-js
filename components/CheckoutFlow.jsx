@@ -16,11 +16,13 @@ const CheckoutFlow = ({ open, handleClose, productDetails }) => {
   const [openMeshModal, setOpenMeshModal] = useState(false);
   const [catalogLink, setCatalogLink] = useState(null);
   const [orderDetails, setOrderDetails] = useState(null);
+  const [linkResponse, setLinkResponse] = useState({})
   const router = useRouter();
 
   useEffect(() => {
     if (currentStep === 'payment') {
-      handleOpenMeshModal(setCatalogLink, setOpenMeshModal);
+      handleOpenMeshModal(setCatalogLink, setOpenMeshModal, amount, setLinkResponse);
+      
     }
   }, [currentStep]);
   const nextStep = () => {
@@ -63,9 +65,7 @@ const CheckoutFlow = ({ open, handleClose, productDetails }) => {
   };
 
   const meshExit = () => {
-    console.info('Checkout EXIT');
     setOpenMeshModal(false) && handleClose();
-    console.log('router hit');
   };
 
   const confirmOrder = async () => {
@@ -75,7 +75,7 @@ const CheckoutFlow = ({ open, handleClose, productDetails }) => {
 
   const handlePayment = async () => {
     const amount = productDetails?.product?.variants[0]?.price;
-    await handleOpenMeshModal(setCatalogLink, setOpenMeshModal, amount);
+    await handleOpenMeshModal(setCatalogLink, setOpenMeshModal, amount, setLinkResponse);
   };
 
   let ComponentToShow;
@@ -129,6 +129,7 @@ const CheckoutFlow = ({ open, handleClose, productDetails }) => {
         link={catalogLink}
         transferFinished={transferFinished}
         meshExit={meshExit}
+        linkToken={linkResponse}
       />
     </>
   );
