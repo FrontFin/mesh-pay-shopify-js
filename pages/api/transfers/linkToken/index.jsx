@@ -41,7 +41,6 @@ export default async function handler(req, res) {
     };
   }
 
-  console.log('bodyObject', bodyObject);
   const api = new FrontApi({
     baseURL: MESH_API_URL,  
     headers: {
@@ -59,8 +58,12 @@ export default async function handler(req, res) {
       const errorMessage = `Failed to retrieve or generate catalogLink. Status: ${getCatalogLink.status} - ${getCatalogLink.statusText}. Message: ${getCatalogLink.message}`;
       throw new Error(errorMessage.displayMessage);
     }
-    return res.status(200).json(getCatalogLink.data);
-  } catch (error) {
+ const combinedPayload = {
+      getCatalogLink: getCatalogLink.data,
+      transferOptions: bodyObject,
+    };
+
+    return res.status(200).json(combinedPayload);  } catch (error) {
     res.status(500).json({
       error: `Something went wrong: ${error.message}`,
     });

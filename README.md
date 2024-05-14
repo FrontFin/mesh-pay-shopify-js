@@ -1,5 +1,6 @@
 Mesh Pay with Shopify
-This application provides sample code that showcases Mesh Link, Mesh RESTful APIs with Shopify APIs to showcase Mesh Pay- an API/SDK to transfer assets from 10+ Exchanges and 100's of deFi wallets by attaching transaction Id's and specific amounts, to any crypto transfer.
+
+This application provides sample code that showcases Mesh Link, Mesh RESTful APIs with Shopify APIs to showcase Mesh Pay- an API/SDK to transfer assets from 10+ Exchanges and 100's of deFi wallets by attaching transaction Id's and specific amounts, to any crypto transfer.  We also use MixPanel to log all Mesh page views as a user goes through Modal screens.
 
 The application was built using React, NEXT JS (for Server side), and TailWind CSS.
 
@@ -44,7 +45,7 @@ MESH_CLIENT_ID={{Mesh ClientId}}
 NEXT_PUBLIC_MESH_NETWORK_ADDRESS=0291810a-5947-424d-9a59-e88bb33e999d  #SOLANA
 ```
 
-this is only for SOL. To change, call our GET networks endpoint https://docs.meshconnect.com/reference/get_api-v1-transfers-managed-networks and modify the below
+The above is is only for SOL. To change, call our GET networks endpoint https://docs.meshconnect.com/reference/get_api-v1-transfers-managed-networks and modify the below
 
 Withdrawal Credentials (change as you see fit.)
 
@@ -55,6 +56,14 @@ NEXT_PUBLIC_USERID={{any UUID }}
 
 ```
 
+Optional  Using Mix Panel:
+
+If you're not using using MixPanel, please comment out any reference on MeshModal.jsx
+
+```bash
+NEXT_PUBLIC_MIXPANEL_TOKEN={{your MixPanel Token}}
+
+```
 
 
 Validate the values contained in the .env file:
